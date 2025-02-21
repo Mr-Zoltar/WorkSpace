@@ -1,2 +1,29 @@
-<p>tenis works!</p>
+<p class="text-3xl font-bold underline">Tenis!</p>
+<div class="box flex-col flex justify-center items-center">
+  <div class="btns-box flex justify-space-between">
+    <button class="w-50 mx-5" mat-button (click)="addScore()">Dodaj element</button>
+    <button class="w-50 mx-5" mat-button (click)="removeScore()">Usuń element</button>
+  </div>
+  <div class="contaier flex flex-col m-10">
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Godzina</th>
+          <th>Nazwa</th>
+          <th>Numer Kortu</th>
+          <th>Prowadzący</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let game of agenda">
+        <td>{{game.date}}</td>
+        <td>{{game.hour}}</td>
+        <td>{{game.name}}</td>
+        <td>{{game.courtNumber}}</td>
+        <td>{{game.handler}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
 <app-footer [email]="sectionEmail" />
