@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="wrapper">
+    <div class="navbar__elements">
+      <a routerLink="/tenis" class="navbar__elements_item">Tenis</a>
+      <a routerLink="/siatkowka" class="navbar__elements_item">Siatkówka</a>
+    </div>
+    <div class="navbar__brand">
+      <a routerLink="/" class="navbar__brand-link">My-app</a>
+    </div>
+    <div class="navbar__login">
+      @if (userName) {
+        <button mat-button (click)="logout()">Wyloguj z <span class="navbar__user">{{ userName }}</span></button>
+      } @else {
+        <button mat-button (click)="openDialog()">Login</button>
+      }
+    </div>
+
+  </div>
+</nav>

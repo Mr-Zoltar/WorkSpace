@@ -1,29 +1,69 @@
+
 <p class="text-3xl font-bold underline">Tenis!</p>
 <div class="box flex-col flex justify-center items-center">
-  <div class="btns-box flex justify-space-between">
-    <button class="w-50 mx-5" mat-button (click)="addScore()">Dodaj element</button>
-    <button class="w-50 mx-5" mat-button (click)="removeScore()">Usuń element</button>
-  </div>
-  <div class="contaier flex flex-col m-10">
-    <table>
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Godzina</th>
-          <th>Nazwa</th>
-          <th>Numer Kortu</th>
-          <th>Prowadzący</th>
-        </tr>
-      </thead>
-      <tr *ngFor="let game of agenda">
-        <td>{{game.date}}</td>
-        <td>{{game.hour}}</td>
-        <td>{{game.name}}</td>
-        <td>{{game.courtNumber}}</td>
-        <td>{{game.handler}}</td>
-      </tr>
-    </table>
-  </div>
-</div>
 
-<app-footer [email]="sectionEmail" />
+  <div class="contaier flex flex-col m-10">
+    <form [formGroup]="formGroup" class="flex flex-col">
+      <mat-form-field class="w-full">
+        <mat-label>Data</mat-label>
+        <input required matInput formControlName="date" [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Godzina</mat-label>
+        <input required type="number" matInput formControlName="hour">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nazwa</mat-label>
+        <input required type="text" matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Numer Kortu</mat-label>
+        <input required type="number" matInput formControlName="courtNumber">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prowadzący</mat-label>
+        <input required type="text" matInput formControlName="handler">
+      </mat-form-field>
+    </form>
+
+
+    <div class="btns-box flex justify-space-between">
+      @if (!editing) {
+      <button class="w-50 mx-5" mat-button (click)="addScore()" [disabled]="!formGroup.valid">Dodaj element</button>
+      <button class="w-50 mx-5" mat-button (click)="editScore()" [disabled]="selectedIndex === null">Edytuj element</button>
+      <button class="w-50 mx-5" mat-button (click)="removeScore()" [disabled]="selectedIndex === null">Usuń element</button>
+      } @else {
+      <button class="w-50 mx-5" mat-button (click)="saveEdit()" [disabled]="!formGroup.valid">Zapisz</button>
+      <button class="w-50 mx-5" mat-button (click)="cancelEdit()">Anuluj</button>
+      }
+    </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Godzina</th>
+            <th>Nazwa</th>
+            <th>Numer Kortu</th>
+            <th>Prowadzący</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (game of agenda; track game.name) {
+          <tr (click)="selectRow(agenda.indexOf(game))" [class.row-selected]="agenda.indexOf(game) === selectedIndex">
+            <td>{{ game.date | date:'dd.MM.yyyy' }}</td>
+            <td>{{ game.hour }}</td>
+            <td>{{ game.name }}</td>
+            <td>{{ game.courtNumber }}</td>
+            <td>{{ game.handler }}</td>
+          </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<app-footer [email]="sectionEmail"></app-footer>

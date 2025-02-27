@@ -1,9 +1,19 @@
-import { Component } from '@angular/core';
-import { FooterComponent } from '../footer/footer.component';
+import { Component, inject } from '@angular/core';
+import { FooterComponent } from '../app-components/footer/footer.component';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  FormGroup,
+} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
-interface Scores {
+export interface Scores {
   date: string;
   hour: number;
   name: string;
@@ -13,56 +23,95 @@ interface Scores {
 
 @Component({
   selector: 'app-tenis',
-  imports: [FooterComponent, MatButtonModule, CommonModule],
+  imports: [
+    FooterComponent,
+    MatButtonModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
   templateUrl: './tenis.component.html',
-  styleUrl: './tenis.component.scss',
+  styleUrls: ['./tenis.component.scss'],
 })
 export class TenisComponent {
-  agenda: Scores[] = [
-    {
-      date: '2021-09-20',
-      hour: 10,
-      name: 'Maria',
-      courtNumber: 1,
-      handler: 'Jan',
-    },
-    {
-      date: '2021-09-20',
-      hour: 11,
-      name: 'Hubert',
-      courtNumber: 2,
-      handler: 'Maria',
-    },
-    {
-      date: '2021-09-20',
-      hour: 12,
-      name: 'Jacek',
-      courtNumber: 1,
-      handler: 'Cyprian',
-    },
-    {
-      date: '2021-09-20',
-      hour: 13,
-      name: 'Jan',
-      courtNumber: 2,
-      handler: 'Tymek',
-    },
-  ];
+  formBuilder = inject(FormBuilder);
+  formGroup: FormGroup = this.formBuilder.group({
+    date: ['', Validators.required],
+    hour: [null, Validators.required],
+    name: ['', Validators.required],
+    courtNumber: [null, Validators.required],
+    handler: ['', Validators.required],
+  });
+  selectedIndex: number | null = null;
+  editing: boolean = false;
+
+  agenda: Scores[] = [];
+
+  isFormValid() {
+    return this.formGroup.valid;
+  }
 
   addScore() {
-    const newScore: Scores = {
-      date: '2021-09-20',
-      hour: 14,
-      name: 'Nowy gracz',
-      courtNumber: 2,
-      handler: 'nowy prowadzący',
-    };
+    if (!this.isFormValid()) return;
+    const formValue = this.formGroup.getRawValue();
+    this.agenda.push({
+      date: formValue.date,
+      hour: formValue.hour ?? 0,
+      name: formValue.name,
+      courtNumber: formValue.courtNumber ?? 0,
+      handler: formValue.handler,
+    });
+    this.formGroup.reset();
+  }
 
-    this.agenda.push(newScore);
+  selectRow(index: number) {
+    if (!this.editing) {
+      this.selectedIndex = index;
+    }
   }
 
   removeScore() {
-    this.agenda.pop();
+    if (this.selectedIndex !== null) {
+      this.agenda.splice(this.selectedIndex, 1);
+      this.selectedIndex = null;
+    }
+  }
+
+  editScore() {
+    if (this.selectedIndex !== null) {
+      const score = this.agenda[this.selectedIndex];
+      this.formGroup.setValue({
+        date: score.date,
+        hour: score.hour,
+        name: score.name,
+        courtNumber: score.courtNumber,
+        handler: score.handler,
+      });
+      this.editing = true;
+    }
+  }
+
+  saveEdit() {
+    if (this.selectedIndex !== null && this.formGroup.valid) {
+      const formValue = this.formGroup.getRawValue();
+      this.agenda[this.selectedIndex] = {
+        date: formValue.date,
+        hour: formValue.hour ?? 0,
+        name: formValue.name,
+        courtNumber: formValue.courtNumber ?? 0,
+        handler: formValue.handler,
+      };
+      this.cancelEdit();
+    }
+  }
+
+  cancelEdit() {
+    this.formGroup.reset();
+    this.editing = false;
+    this.selectedIndex = null;
   }
 
   sectionEmail = 'tenis@email.com';

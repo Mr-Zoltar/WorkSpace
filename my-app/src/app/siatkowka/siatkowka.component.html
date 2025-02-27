@@ -1,10 +1,42 @@
 <p class="text-3xl font-bold underline">Siatkówka!</p>
 <div class="box flex-col flex justify-center items-center">
-  <div class="btns-box flex justify-space-between">
-    <button class="w-50 mx-5" mat-button (click)="addNewScore()">Dodaj element</button>
-    <button class="w-50 mx-5" mat-button (click)="removeScore()">Usuń element</button>
-  </div>
+
   <div class="contaier flex flex-col m-10">
+    <div class="form flex flex-col ">
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input required matInput [(ngModel)]="newItem.date" matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Godzina</mat-label>
+        <input required type="number" matInput [(ngModel)]="newItem.hour">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Imię</mat-label>
+        <input required type="text" matInput [(ngModel)]="newItem.name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Numer boiska</mat-label>
+        <input required type="number" matInput [(ngModel)]="newItem.pitchNumber">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prowadzący</mat-label>
+        <input required type="text" matInput [(ngModel)]="newItem.handler">
+      </mat-form-field>
+    </div>
+    <div class="btns-box flex justify-space-between">
+      @if (!editing) {
+      <button w-50 mx-5 mat-button [disabled]="!isFormValid()" (click)="addNewScore()">Dodaj element</button>
+      <button w-50 mx-5 mat-button [disabled]="selectedIndex === null" (click)="editScore()">Edytuj element</button>
+      <button w-50 mx-5 mat-button [disabled]="selectedIndex === null" (click)="removeScore()">Usuń element</button>
+      <button w-50 mx-5 mat-button [disabled]="selectedIndex === null" (click)="navigateTo()">Szczegóły</button>
+      } @else {
+      <button w-50 mx-5 mat-button [disabled]="!isFormValid()" (click)="saveEdit()">Zapisz</button>
+      <button w-50 mx-5 mat-button (click)="cancelEdit()">Anuluj</button>
+      }
+    </div>
     <table>
       <thead>
         <tr>
@@ -15,15 +47,18 @@
           <th>Prowadzący</th>
         </tr>
       </thead>
-      @for (game of siatkowkaService.agenda; track game.name) {
-      <tr>
-        <td>{{game.date}}</td>
-        <td>{{game.hour}}</td>
-        <td>{{game.name}}</td>
-        <td>{{game.pitchNumber}}</td>
-        <td>{{game.handler}}</td>
-      </tr>
-      }
+      <tbody>
+        @for (game of siatkowkaService.agenda; track game.id) {
+        <tr (click)="selectRow(siatkowkaService.agenda.indexOf(game))"
+          [class.row-selected]="siatkowkaService.agenda.indexOf(game) === selectedIndex">
+          <td>{{ game.date | date:'dd.MM.yyyy' }}</td>
+          <td>{{ game.hour }}</td>
+          <td>{{ game.name }}</td>
+          <td>{{ game.pitchNumber }}</td>
+          <td>{{ game.handler }}</td>
+        </tr>
+        }
+      </tbody>
     </table>
   </div>
 </div>
