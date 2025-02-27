@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Scores } from './siatkowka.component';
+import { Scores } from '../siatkowka.component';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class SiatkowkaService {
       name: 'Mecz piłki nożnej',
       pitchNumber: 1,
       handler: 'Jan Kowalski',
-      id: 1
+      id: 1,
     },
     {
       date: '2023-04-11',
@@ -20,10 +20,9 @@ export class SiatkowkaService {
       name: 'Trening siatkówki',
       pitchNumber: 2,
       handler: 'Anna Nowak',
-      id: 2
-    }
+      id: 2,
+    },
   ];
-
 
   addScore(score: Scores) {
     this.agenda.push(score);

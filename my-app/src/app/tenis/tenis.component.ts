@@ -1,8 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { FooterComponent } from '../footer/footer.component';
+import { FooterComponent } from '../app-components/footer/footer.component';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  FormGroup,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -34,17 +39,16 @@ export interface Scores {
 export class TenisComponent {
   formBuilder = inject(FormBuilder);
   formGroup: FormGroup = this.formBuilder.group({
-    date: [ '', Validators.required ],
-    hour: [ null, Validators.required ],
-    name: [ '', Validators.required ],
-    courtNumber: [ null, Validators.required ],
-    handler: [ '', Validators.required ],
+    date: ['', Validators.required],
+    hour: [null, Validators.required],
+    name: ['', Validators.required],
+    courtNumber: [null, Validators.required],
+    handler: ['', Validators.required],
   });
   selectedIndex: number | null = null;
   editing: boolean = false;
 
-  agenda: Scores[] = [
-  ];
+  agenda: Scores[] = [];
 
   isFormValid() {
     return this.formGroup.valid;

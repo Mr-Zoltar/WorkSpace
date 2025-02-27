@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { BehaviorSubject } from 'rxjs';
+import { LoginDialogComponent } from '../components/login-dialog/login-dialog.component';
 
 export interface UserData {
   username: string;
@@ -21,11 +21,12 @@ export class AuthService {
     this.dialog.open(LoginDialogComponent);
   }
 
-
   login(name: string, password: string): boolean {
-    const user = this.databaseOfUsers.find((user) => user.username === name && user.password === password);
+    const user = this.databaseOfUsers.find(
+      (user) => user.username === name && user.password === password
+    );
     if (user) {
-      this.user$.next(user)
+      this.user$.next(user);
       console.log('Logowanie udane');
       return true;
     } else {
@@ -40,7 +41,7 @@ export class AuthService {
   }
 
   getUser() {
-    return this.user$
+    return this.user$;
   }
 
   logout(): void {

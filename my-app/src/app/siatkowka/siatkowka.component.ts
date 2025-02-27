@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { FooterComponent } from '../footer/footer.component';
-import { SiatkowkaService } from './siatkowka.service';
+import { FooterComponent } from '../app-components/footer/footer.component';
+import { SiatkowkaService } from './services/siatkowka.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,14 +37,14 @@ export interface NewScores {
     MatFormFieldModule,
     FormsModule,
     MatDatepickerModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './siatkowka.component.html',
   styleUrl: './siatkowka.component.scss',
 })
 export class SiatkowkaComponent {
   siatkowkaService = inject(SiatkowkaService);
-  private router = inject(Router)
+  private router = inject(Router);
   disabledButton = false;
   newItem: NewScores = {
     date: '',
@@ -56,7 +56,6 @@ export class SiatkowkaComponent {
   editing = false;
   selectedIndex: number | null = null;
   sectionEmail = 'email@tenis.com';
-
 
   isFormValid() {
     return (
@@ -126,7 +125,10 @@ export class SiatkowkaComponent {
 
   navigateTo() {
     if (this.selectedIndex) {
-      this.router.navigate(['/siatkowka', this.siatkowkaService.agenda[this.selectedIndex].id])
+      this.router.navigate([
+        '/siatkowka',
+        this.siatkowkaService.agenda[this.selectedIndex].id,
+      ]);
     }
   }
 
