@@ -31,6 +31,7 @@
       <button w-50 mx-5 mat-button [disabled]="!isFormValid()" (click)="addNewScore()">Dodaj element</button>
       <button w-50 mx-5 mat-button [disabled]="selectedIndex === null" (click)="editScore()">Edytuj element</button>
       <button w-50 mx-5 mat-button [disabled]="selectedIndex === null" (click)="removeScore()">Usuń element</button>
+      <button w-50 mx-5 mat-button [disabled]="selectedIndex === null" (click)="navigateTo()">Szczegóły</button>
       } @else {
       <button w-50 mx-5 mat-button [disabled]="!isFormValid()" (click)="saveEdit()">Zapisz</button>
       <button w-50 mx-5 mat-button (click)="cancelEdit()">Anuluj</button>
@@ -47,7 +48,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (game of siatkowkaService.agenda; track game.name) {
+        @for (game of siatkowkaService.agenda; track game.id) {
         <tr (click)="selectRow(siatkowkaService.agenda.indexOf(game))"
           [class.row-selected]="siatkowkaService.agenda.indexOf(game) === selectedIndex">
           <td>{{ game.date | date:'dd.MM.yyyy' }}</td>

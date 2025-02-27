@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { TenisComponent } from './tenis/tenis.component';
 import { SiatkowkaComponent } from './siatkowka/siatkowka.component';
+import { ShowMoreComponent } from './show-more/show-more.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'siatkowka',
     component: SiatkowkaComponent
+  },
+  {
+    path: 'siatkowka/:id',
+    component: ShowMoreComponent
   },
   {
     path: '**',

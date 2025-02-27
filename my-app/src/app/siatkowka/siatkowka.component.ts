@@ -7,8 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { routes } from '../app.routes';
 
 export interface Scores {
+  id: number;
   date: string;
   hour: number;
   name: string;
@@ -34,12 +37,14 @@ export interface NewScores {
     MatFormFieldModule,
     FormsModule,
     MatDatepickerModule,
+    RouterModule
   ],
   templateUrl: './siatkowka.component.html',
   styleUrl: './siatkowka.component.scss',
 })
 export class SiatkowkaComponent {
   siatkowkaService = inject(SiatkowkaService);
+  private router = inject(Router)
   disabledButton = false;
   newItem: NewScores = {
     date: '',
@@ -51,6 +56,7 @@ export class SiatkowkaComponent {
   editing = false;
   selectedIndex: number | null = null;
   sectionEmail = 'email@tenis.com';
+
 
   isFormValid() {
     return (
@@ -77,6 +83,7 @@ export class SiatkowkaComponent {
       return;
     }
     const newScore: Scores = {
+      id: Date.now(),
       date: this.newItem.date,
       hour: this.newItem.hour as number,
       name: this.newItem.name,
@@ -104,7 +111,9 @@ export class SiatkowkaComponent {
 
   saveEdit() {
     if (this.selectedIndex !== null && this.isFormValid()) {
+      const currentScore = this.siatkowkaService.agenda[this.selectedIndex];
       this.siatkowkaService.agenda[this.selectedIndex] = {
+        id: currentScore.id,
         date: this.newItem.date,
         hour: this.newItem.hour as number,
         name: this.newItem.name,
@@ -112,6 +121,12 @@ export class SiatkowkaComponent {
         handler: this.newItem.handler,
       };
       this.cancelEdit();
+    }
+  }
+
+  navigateTo() {
+    if (this.selectedIndex) {
+      this.router.navigate(['/siatkowka', this.siatkowkaService.agenda[this.selectedIndex].id])
     }
   }
 

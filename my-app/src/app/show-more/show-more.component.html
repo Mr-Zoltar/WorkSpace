@@ -1,0 +1,9 @@
+<div class="container">
+  @if (score) {
+    <p><strong>Data:</strong> {{ score.date | date:'dd.MM.yyyy' }}</p>
+    <p><strong>Godzina:</strong> {{ score.hour }}</p>
+    <p><strong>Nazwa:</strong> {{ score.name }}</p>
+    <p><strong>Numer boiska:</strong> {{ score.pitchNumber }}</p>
+    <p><strong>Prowadzący:</strong> {{ score.handler }}</p>
+  }
+</div>
