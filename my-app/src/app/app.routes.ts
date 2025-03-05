@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 import { TenisComponent } from './tenis/tenis.component';
 import { SiatkowkaComponent } from './siatkowka/siatkowka.component';
 import { ShowMoreComponent } from './siatkowka/components/show-more/show-more.component';
+import { ShopComponent } from './shop/shop.component';
+import { CartComponent } from './cart/cart.component';
+import { RatesComponent } from './rates/rates.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +19,18 @@ export const routes: Routes = [
   {
     path: 'siatkowka',
     component: SiatkowkaComponent,
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+  },
+  {
+    path: 'cart',
+    component: CartComponent,
+  },
+  {
+    path: 'rates',
+    component: RatesComponent,
   },
   {
     path: 'siatkowka/:id',

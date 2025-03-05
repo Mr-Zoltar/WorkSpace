@@ -3,15 +3,21 @@
     <div class="navbar__elements">
       <a routerLink="/tenis" class="navbar__elements_item">Tenis</a>
       <a routerLink="/siatkowka" class="navbar__elements_item">Siatkówka</a>
+      <a routerLink="/shop" class="navbar__elements_item">sklep</a>
+      <a routerLink="/rates" class="navbar__elements_item">kursy walut</a>
     </div>
     <div class="navbar__brand">
       <a routerLink="/" class="navbar__brand-link">My-app</a>
     </div>
     <div class="navbar__login">
+      <button color="cart-button" routerLink="/cart" mat-button [matBadge]="amountOfProducts()"
+        [matBadgeHidden]="hidden()">
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
       @if (userName) {
-        <button mat-button (click)="logout()">Wyloguj z <span class="navbar__user">{{ userName }}</span></button>
+      <button mat-button (click)="logout()">Wyloguj z <span class="navbar__user">{{ userName }}</span></button>
       } @else {
-        <button mat-button (click)="openDialog()">Login</button>
+      <button mat-button (click)="openDialog()">Login</button>
       }
     </div>
 
