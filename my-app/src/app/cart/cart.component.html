@@ -1,0 +1,23 @@
+<div class="box">
+  <div class="cart">
+    <h2>Twój koszyk</h2>
+    <div class="cart__products">
+      @for (product of products(); track product.id) {
+      <div class="cart__product">
+        <div class="cart__product-text">
+          <h3>{{ product.name }}</h3>
+          <p>Cena: {{ product.price }} zł</p>
+          <p>Ilość: {{ product.quantity }}</p>
+        </div>
+        <div class="cart__product-buttons">
+          <button (click)="removeFromCart(product)">Usuń</button>
+        </div>
+      </div>
+      }
+    </div>
+    <div class="cart__summary">
+      <button (click)="clearCart()">Wyczyść koszyk</button>
+      <p>Suma: {{ totalPrice() }} zł</p>
+    </div>
+  </div>
+</div>
