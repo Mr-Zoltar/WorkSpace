@@ -1,0 +1,13 @@
+<h2>Historia kursów dla: {{ currencyCode }}</h2>
+<table>
+  <tr>
+    <th>Data</th>
+    <th>Kurs</th>
+  </tr>
+  @for (rate of rates(); track rate.effectiveDate) {
+    <tr>
+      <td>{{ rate.effectiveDate }}</td>
+      <td>{{ rate.mid }}</td>
+    </tr>
+  }
+</table>

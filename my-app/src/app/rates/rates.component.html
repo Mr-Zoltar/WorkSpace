@@ -1,8 +1,47 @@
-<div>
-  <h2>Kurs USD</h2>
-  @if (askValue() !== null) {
-    <p>
-    Ask: {{ askValue() }}
-  </p>
+<div class="wrapper">
+
+
+  <mat-form-field>
+    <mat-label>Tablica</mat-label>
+    <mat-select matNativeControl required [formControl]="filterForm.controls.table">
+      <mat-option value="a">A</mat-option>
+      <mat-option value="b">B</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="form example-full-width">
+    <mat-label>Choose a date</mat-label>
+    <input [max]="maxDate" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"
+      [formControl]="filterForm.controls.date">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-button class="m-4" (click)="filterRates()">Wyszukaj</button>
+
+  @if (rates().length === 0) {
+  <h2>Brak danych</h2>
+  } @else {
+  <h2>Kursy walut</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Waluta</th>
+        <th>Kod</th>
+        <th>Kurs</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (rate of rates(); track rate.code) {
+      <tr (click)="showDetails(rate.code)">
+        <td>{{ rate.currency }}</td>
+        <td>{{ rate.code }}</td>
+        <td>{{ rate.mid }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
   }
+
+
 </div>

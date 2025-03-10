@@ -5,6 +5,7 @@ import { ShowMoreComponent } from './siatkowka/components/show-more/show-more.co
 import { ShopComponent } from './shop/shop.component';
 import { CartComponent } from './cart/cart.component';
 import { RatesComponent } from './rates/rates.component';
+import { ShowDetailRatesComponent } from './show-detail-rates/show-detail-rates.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,10 @@ export const routes: Routes = [
   {
     path: 'rates',
     component: RatesComponent,
+  },
+  {
+    path: 'details/:code',
+    component: ShowDetailRatesComponent
   },
   {
     path: 'siatkowka/:id',
